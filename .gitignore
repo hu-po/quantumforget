@@ -3,6 +3,36 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Stable diffusion fork
+generative-models/
+
+# logs
+logs/
+
+# data
+data/
+
+# sgm repo in windows
+sgm/
+
+# weights
+ckpt/
+*.pt
+*.pth
+*.safetensors
+
+# CSV files
+*.csv
+
+# Keys
+.keys/
+
+# C extensions
+*.so
+
+# Models
+*.pth
+
 # C extensions
 *.so
 

@@ -4,7 +4,13 @@ RUN pip install \
     torchvision \
     timm \
     Pillow \
-    pyzmq
+    matplotlib \
+    numpy \
+    pennylane \
+    tensorflow \
+    torch \
+    pyyaml \
+    hyperopt \
+    tensorboardX
 WORKDIR /workspace/quantumforget
-RUN python setup.py install
-COPY ./*.py /workspace/quantumforget
+COPY ./*.py /workspace/quantumforget/

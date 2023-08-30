@@ -358,17 +358,3 @@ ax2.set_xlabel("Epoch")
 ax2.legend()
 plt.tight_layout()
 plt.show()
-
-
-##############################################################################
-# References
-# ----------
-#
-# 1. Maxwell Henderson, Samriddhi Shakya, Shashindra Pradhan, Tristan Cook.
-#    "Quanvolutional Neural Networks: Powering Image Recognition with Quantum Circuits."
-#    `arXiv:1904.04767 <https://arxiv.org/abs/1904.04767>`__, 2019.
-#
-#
-# About the author
-# ----------------
-# .. include:: ../_static/authors/andrea_mari.txt

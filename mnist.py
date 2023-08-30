@@ -1,10 +1,3 @@
-"""
-docker run -it \
-    --gpus all \
-    -v /home/oop/dev/simicam:/workspace/simicam \
-    pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
-"""
-# Import necessary libraries
 import torch
 import torch.nn as nn
 import torch.optim as optim

@@ -11,33 +11,14 @@ from tensorboardX import SummaryWriter
 
 from src import train_valid, eval_from_episode_dir
 
-if os.name == 'nt':
-    print("Windows Computer Detected")
-    DEFAULT_BATCH_SIZE = 5
-    DEFAULT_SEED = 340
-    ROOT_DIR =  "C:\\Users\\ook\\Documents\\dev"
-    DATA_DIR = os.path.join(ROOT_DIR, "ashenvenus\\data\\split")
-    MODEL_DIR = os.path.join(ROOT_DIR, "ashenvenus\\models")
-    OUTPUT_DIR = os.path.join(ROOT_DIR, "ashenvenus\\output")
-    shutil.rmtree(OUTPUT_DIR, ignore_errors=True)
-else:
-    if os.path.isdir("/home/tren"):
-        print("Linux Computer 1 Detected")
-        ROOT_DIR = "/home/tren/dev/"
-        DEFAULT_BATCH_SIZE = 2
-        DEFAULT_SEED = 7
-        DATA_DIR = os.path.join(ROOT_DIR, "ashenvenus/data/split")
-        MODEL_DIR = os.path.join(ROOT_DIR, "ashenvenus/models")
-        OUTPUT_DIR = os.path.join(ROOT_DIR, "ashenvenus/output")
-    elif os.path.isdir("/home/oop"):
-        print("Linux Computer 2 Detected")
-        ROOT_DIR = "/home/oop/dev/"
-        DEFAULT_BATCH_SIZE = 3
-        DEFAULT_SEED = 420
-        DATA_DIR = os.path.join(ROOT_DIR, "ashenvenus/data/split")
-        MODEL_DIR = os.path.join(ROOT_DIR, "ashenvenus/models")
-        OUTPUT_DIR = os.path.join(ROOT_DIR, "ashenvenus/output")
-        shutil.rmtree(OUTPUT_DIR, ignore_errors=True)
+print("Linux Computer 2 Detected")
+ROOT_DIR = "/home/oop/dev/"
+DEFAULT_BATCH_SIZE = 3
+DEFAULT_SEED = 420
+DATA_DIR = os.path.join(ROOT_DIR, "ashenvenus/data/split")
+MODEL_DIR = os.path.join(ROOT_DIR, "ashenvenus/models")
+OUTPUT_DIR = os.path.join(ROOT_DIR, "ashenvenus/output")
+shutil.rmtree(OUTPUT_DIR, ignore_errors=True)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=DEFAULT_SEED)

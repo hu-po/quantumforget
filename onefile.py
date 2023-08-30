@@ -20,3 +20,13 @@ from tensorboardX import SummaryWriter
 from tensorflow import keras
 from torch.utils.data import DataLoader, Subset, TensorDataset
 from torchvision import datasets, transforms
+
+# one model class with multiple "backbones"
+
+# split MNIST into 2 datasets based on label
+
+# function to train X epochs on X dataset
+
+# hyperopt to sweep over all combinations of models/datasets
+
+# final plot

@@ -6,6 +6,7 @@ from torch.utils.tensorboard import SummaryWriter
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from torch.quantization import quantize_dynamic
+import copy
 
 
 EPOCHS = 3
@@ -46,20 +47,41 @@ class SimpleNN(nn.Module):
         return x
     
 def model_to_str(model):
-    params_list = []
-    for _, param in model.named_parameters():
-        params_list.append(param.detach().cpu().numpy().flatten())
-    return ",".join(map(str, np.concatenate(params_list)))
+    components = []
 
-def str_to_model(model_str):
-    model = SimpleNN()
-    param_values = [float(i) for i in model_str.split(",")]
+    state_dict = model.state_dict()
+    for key, value in state_dict.items():
+        if isinstance(value, torch.Tensor):
+            components.append(",".join(map(str, value.cpu().float().numpy().flatten())))
+        elif isinstance(value, tuple):
+            for item in value:
+                if isinstance(item, torch.Tensor):
+                    components.append(",".join(map(str, item.cpu().float().numpy().flatten())))
+
+    return ";".join(components)
+
+def str_to_model(model_str, template_model):
+    model = copy.deepcopy(template_model)
+    components = model_str.split(";")
+
     idx = 0
-    for name, param in model.named_parameters():
-        num_params = np.prod(param.size())
-        new_val = torch.tensor(param_values[idx:idx+num_params]).view_as(param)
-        param.data.copy_(new_val)
-        idx += num_params
+    new_state_dict = model.state_dict()
+
+    for key, value in new_state_dict.items():
+        if isinstance(value, torch.Tensor):
+            data = components[idx].split(",")
+            new_state_dict[key] = torch.tensor([float(v) for v in data], dtype=value.dtype).view_as(value)
+            idx += 1
+        elif isinstance(value, tuple):
+            items = []
+            for item in value:
+                if isinstance(item, torch.Tensor):
+                    data = components[idx].split(",")
+                    items.append(torch.tensor([float(v) for v in data], dtype=item.dtype).view_as(item))
+                    idx += 1
+            new_state_dict[key] = tuple(items)
+
+    model.load_state_dict(new_state_dict)
     return model
 
 def compare_models(model_a, model_b):
@@ -99,10 +121,10 @@ for epoch in range(EPOCHS):
         # Log train loss every batch
         writer.add_scalar('Train loss', loss.item(), i + epoch * len(train_loader))
 
-    # # Model can be saved out as a string
-    # model_str = model_to_str(model)
-    # print(model_str)
-    # assert compare_models(str_to_model(model_str), model)
+    # Model can be saved out as a string
+    model_str = model_to_str(model)
+    print(model_str)
+    assert compare_models(str_to_model(model_str, SimpleNN()), model)
 
     correct = 0
     total = 0
